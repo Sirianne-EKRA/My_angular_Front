@@ -93,8 +93,12 @@ export class AssignmentsService {
     bdInitialAssignments.forEach(a => {
       let newAssignment = new Assignment();
       newAssignment.nom = a.nom;
+      newAssignment.nom_eleve = a.nomEleve;
+      newAssignment.matiere = a.matiere;
       newAssignment.dateDeRendu = new Date(a.dateDeRendu);
       newAssignment.rendu = a.rendu;
+      newAssignment.note = a.note;
+      newAssignment.remarque = a.remarque;
 
       this.addAssignment(newAssignment).subscribe(() => {
         console.log("Assignment ajouté : " + a.nom);
@@ -108,8 +112,12 @@ export class AssignmentsService {
     bdInitialAssignments.forEach(a => {
       const nouvelAssignment = new Assignment();
       nouvelAssignment.nom = a.nom;
+      nouvelAssignment.nom_eleve = a.nomEleve;
+      nouvelAssignment.matiere = a.matiere;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
+      nouvelAssignment.note = a.note;
+      nouvelAssignment.remarque = a.remarque;
 
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
     });

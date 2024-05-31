@@ -1,4 +1,5 @@
-<form ngForm (submit)="onSubmit(); formAssignments.reset()" class="form" #formAssignments>
+<!--
+  <form ngForm (submit)="onSubmit(); formAssignments.reset()" class="form" #formAssignments>
     <mat-form-field>
         <mat-label>Nom du devoir</mat-label>
         <input matInput placeholder="Nom du devoir" [(ngModel)]="nomDevoir" name="nom">
@@ -11,9 +12,48 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      
-    <button mat-raised-button color="primary" 
+
+    <button mat-raised-button color="primary"
     >
         AddAssignment
     </button>
+</form>
+
+-->
+
+<form ngForm (submit)="onSubmit(); formAssignments.reset()" class="form" #formAssignments>
+  <mat-form-field>
+    <mat-label>Nom du devoir</mat-label>
+    <input matInput placeholder="Nom du devoir" [(ngModel)]="nomDevoir" name="nom">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nom de l'élève</mat-label>
+    <input matInput placeholder="Nom de l'élève" [(ngModel)]="nomEleve" name="nomEleve">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Matière</mat-label>
+    <input matInput placeholder="Matière" [(ngModel)]="matiere" name="matiere">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date de rendu</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Note</mat-label>
+    <input matInput type="number" placeholder="Note" [(ngModel)]="note" name="note">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Remarque</mat-label>
+    <textarea matInput placeholder="Remarque" [(ngModel)]="remarque" name="remarque"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Add Assignment</button>
 </form>
