@@ -12,11 +12,11 @@ export class AssignmentsService {
   constructor(private http:HttpClient) { }
 
   assignments:Assignment[] = [];
-  //backendUrl = 'http://localhost:8010/api/assignments';
-  backendUrl = 'https://angularestatic2024back.onrender.com/api/assignments';
- 
+  backendUrl = 'http://localhost:8010/api/assignments';
+  //backendUrl = 'https://angularestatic2024back.onrender.com/api/assignments';
+
   /**
-   *  Renvoie tous les assignments 
+   *  Renvoie tous les assignments
    */
   getAssignments(page:number, limit:number):Observable<any> {
     // On envoit une requête au back-end, qui lui-même
@@ -27,7 +27,7 @@ export class AssignmentsService {
   }
 
   /**
-   * 
+   *
    * @param id => id de l'assignment à récupérer
    * @returns un assignment ou undefined si l'assignment n'est pas trouvé
    */
@@ -54,11 +54,11 @@ export class AssignmentsService {
 
       console.log(error); // pour afficher dans la console
       console.log(operation + ' a échoué ' + error.message);
- 
+
       return of(result as T);
     }
  };
- 
+
 
   addAssignment(assignment:Assignment):Observable<any> {
     //this.assignments.push(assignment);
@@ -104,19 +104,19 @@ export class AssignmentsService {
 
   peuplerBDavecForkJoin():Observable<any> {
     let appelsVersAddAssignment:Observable<any>[] = [];
- 
+
     bdInitialAssignments.forEach(a => {
       const nouvelAssignment = new Assignment();
       nouvelAssignment.nom = a.nom;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;
- 
+
       appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
     });
- 
+
     // On attend que tous les appels soient terminés
     return forkJoin(appelsVersAddAssignment);
   }
- 
- 
+
+
 }
