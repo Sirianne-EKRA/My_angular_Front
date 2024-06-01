@@ -1,10 +1,11 @@
-<h1>
-  <nav>
-    <a routerLink="/home">{{titre}}</a>
-  </nav>
-</h1>
-<mat-slide-toggle (click)="onLogin()">Login</mat-slide-toggle>
-<button mat-raised-button color="primary" (click)="genereDonnesDeTest()">
-  Peupler la BD avec données de test</button>
+<mat-toolbar color="primary" class="toolbar">
+  <span>{{ titre }}</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/home">Home</button>
+  <button mat-button (click)="onLogin()">Login</button>
+  <button mat-raised-button color="accent" (click)="genereDonnesDeTest()">
+    Peupler la BD avec données de test
+  </button>
+</mat-toolbar>
 
 <router-outlet></router-outlet>

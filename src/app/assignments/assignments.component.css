@@ -38,3 +38,16 @@
 .non-rendu {
   border: 4px solid red;
 }
+
+.high{
+  padding: 40 px;
+}
+
+.bouton_ajouter {
+  color: white;
+  background-color: brown;
+}
+
+.navigation{
+  color: bisque;
+}

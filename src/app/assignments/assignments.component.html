@@ -1,15 +1,18 @@
-<h3>{{ titre }}</h3>
-<p>Nombre d'assignments : {{ totalDocs }}, Nb pages : {{ totalPages }}</p>
-<p>Page courante : {{ page }}, limit : {{ limit }}</p>
-<p>Nb assignments par page:</p>
+<div class="high">
+  <h3>{{ titre }}</h3>
+  <p>Nombre d'assignments : {{ totalDocs }}, Nb pages : {{ totalPages }}</p>
+  <p>Page courante : {{ page }}, limit : {{ limit }}</p>
+  <p>Nb assignments par page:</p>
 
-<mat-slider min="1" max="100" step="1" thumbLabel>
-  <input
-    matSliderThumb
-    [(ngModel)]="limit"
-    (change)="getAssignments()"
-  />
-</mat-slider>
+  <mat-slider min="1" max="100" step="1" thumbLabel>
+    <input
+      matSliderThumb
+      [(ngModel)]="limit"
+      (change)="getAssignments()"
+    />
+  </mat-slider>
+</div>
+
 
 <div class="container">
   <div class="ajouterBtn">

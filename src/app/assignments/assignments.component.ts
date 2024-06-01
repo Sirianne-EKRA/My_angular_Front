@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RenduDirective } from '../shared/rendu.directive';
 import { NonRenduDirective } from '../shared/non-rendu.directive';
@@ -10,7 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
-import { MatCardModule } from '@angular/material/card'; // Importation de MatCardModule
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar'; // Importation de MatToolbarModule
 import { RouterLink } from '@angular/router';
 import { Assignment } from './assignment.model';
 import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
@@ -35,12 +36,13 @@ import { AssignmentsService } from '../shared/assignments.service';
     AssignmentDetailComponent,
     AddAssignmentComponent,
     MatPaginatorModule,
-    MatCardModule // Ajout de MatCardModule dans les imports
+    MatCardModule,
+    MatToolbarModule // Ajout de MatToolbarModule dans les imports
   ],
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css']
 })
-export class AssignmentsComponent {
+export class AssignmentsComponent implements OnInit {
   titre = "Liste des devoirs à faire :";
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
   pageSizeOptions = [5, 10, 25, 50, 100];
