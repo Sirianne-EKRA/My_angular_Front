@@ -9,7 +9,7 @@ import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 export class MatieresService {
   constructor(private http: HttpClient) {}
 
-  backendUrl = 'http://localhost:8010/api/matieres';
+  backendUrl = 'https://my-angular-back-1.onrender.com/api/matieres';
 
   getMatieres(): Observable<Matiere[]> {
     return this.http.get<any>(this.backendUrl).pipe(

@@ -12,8 +12,8 @@ export class AssignmentsService {
   constructor(private http: HttpClient) { }
 
   assignments: Assignment[] = [];
-  backendUrl = 'http://localhost:8010/api/assignments';
-  backendMatieresUrl = "http://localhost:8010/api/matieres";
+  backendUrl = 'https://my-angular-back-1.onrender.com/api/assignments';
+  backendMatieresUrl = "https://my-angular-back-1.onrender.com/api/matieres";
 
   getAssignments(page: number, limit: number): Observable<any> {
     return this.http.get<any>(`${this.backendUrl}?page=${page}&limit=${limit}`);
