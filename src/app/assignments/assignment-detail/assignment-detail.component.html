@@ -5,7 +5,8 @@
       <mat-card-subtitle>{{ assignmentTransmis.nom }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <p><strong>Matière:</strong> {{ assignmentTransmis.matiere }}</p>
+      <p><strong>Prof:</strong> {{ assignmentTransmis.matiereDetails.professor.split('|')[0] }}</p>
+      <p><strong>Matière:</strong> {{ assignmentTransmis.matiereDetails.name }}</p>
       <p><strong>Nom de l'élève:</strong> {{ assignmentTransmis.nom_eleve }}</p>
       <p><strong>Remarque:</strong> {{ assignmentTransmis.remarque }}</p>
       <p><strong>Note:</strong> {{ assignmentTransmis.note }}</p>

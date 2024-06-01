@@ -5,51 +5,43 @@
   <p>Nb assignments par page:</p>
 
   <mat-slider min="1" max="100" step="1" thumbLabel>
-    <input
-      matSliderThumb
-      [(ngModel)]="limit"
-      (change)="getAssignments()"
-    />
+    <input matSliderThumb [(ngModel)]="limit" (change)="getAssignments()" />
   </mat-slider>
+
+  <div class="ajouterBtn">
+    <a routerLink="/add">
+      <button mat-flat-button color="warn">Ajouter Assignment</button>
+    </a>
+  </div>
 </div>
 
 
 <div class="container">
-  <div class="ajouterBtn">
-    <a routerLink="/add">
-      <button mat-flat-button color="accent">Ajouter Assignment</button>
-    </a>
-  </div>
-
   <div id="divPagination">
     <button mat-raised-button color="primary" (click)="premierePage()">Première page</button>
-    <button mat-raised-button color="primary" [disabled]="page === 1" (click)="pagePrecedente()">Page précédente</button>
-    <button mat-raised-button color="primary" [disabled]="page === totalPages" (click)="pageSuivante()">Page suivante</button>
+    <button mat-raised-button color="primary" [disabled]="page === 1" (click)="pagePrecedente()">Page
+      précédente</button>
+    <button mat-raised-button color="primary" [disabled]="page === totalPages" (click)="pageSuivante()">Page
+      suivante</button>
     <button mat-raised-button color="primary" (click)="dernierePage()">Dernière page</button>
   </div>
 
-  <mat-paginator
-    #paginator
-    class="demo-paginator"
-    (page)="handlePageEvent($event)"
-    [length]="totalDocs"
-    [pageSize]="limit"
-    [showFirstLastButtons]="true"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageIndex]="page - 1"
+  <mat-paginator #paginator class="demo-paginator" (page)="handlePageEvent($event)" [length]="totalDocs"
+    [pageSize]="limit" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [pageIndex]="page - 1"
     aria-label="Select page">
   </mat-paginator>
 
   <div class="assignment-cards">
-    <mat-card *ngFor="let a of assignments"
-              class="assignment-card"
-              [ngClass]="{'rendu': a.rendu, 'non-rendu': !a.rendu}">
+    <mat-card *ngFor="let a of assignments" class="assignment-card"
+      [ngClass]="{'rendu': a.rendu, 'non-rendu': !a.rendu}">
       <mat-card-header>
-        <mat-card-title>{{ a.nom }}</mat-card-title>
-        <mat-card-subtitle>{{ a.nom_eleve }}</mat-card-subtitle>
+        <mat-card-subtitle>Prof : {{ a.matiereDetails.professor.split('|')[0] }}</mat-card-subtitle>
       </mat-card-header>
+      <img mat-card-image style="height: 200px;" src="{{ a.matiereDetails.image }}" alt="Photo of a Shiba Inu">
       <mat-card-content>
-        <p><strong>Matière:</strong> {{ a.matiere }}</p>
+        <p><strong>Devoir:</strong> {{ a.nom }}</p>
+        <p><strong>Matière:</strong> {{ a.matiereDetails.name }}</p>
+        <p><strong>Elève:</strong> {{  a.nom_eleve }}</p>
         <p><strong>Date de rendu:</strong> {{ a.dateDeRendu | date: 'd/M/yy' }}</p>
         <p><strong>Rendu:</strong> {{ a.rendu ? 'Oui' : 'Non' }}</p>
         <p><strong>Note:</strong> {{ a.note }}</p>
