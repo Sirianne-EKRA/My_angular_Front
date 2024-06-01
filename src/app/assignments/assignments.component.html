@@ -1,193 +1,62 @@
-<h3>{{titre}}</h3>
-<p>Nombre d'assignments : {{totalDocs}}, Nb pages : {{totalPages}}</p>
-<p>Page courante : {{page}}, limit : {{limit}}</p>
-<p>Nb assignments par page : 
+<h3>{{ titre }}</h3>
+<p>Nombre d'assignments : {{ totalDocs }}, Nb pages : {{ totalPages }}</p>
+<p>Page courante : {{ page }}, limit : {{ limit }}</p>
+<p>Nb assignments par page:</p>
 
-<!-- add slider for adjusting the limit property, with angular 17 -->
 <mat-slider min="1" max="100" step="1" thumbLabel>
-    <input
-      matSliderThumb
-      [(ngModel)]="limit"
-      (change)="getAssignments()"
-    />
-  </mat-slider>
+  <input
+    matSliderThumb
+    [(ngModel)]="limit"
+    (change)="getAssignments()"
+  />
+</mat-slider>
 
 <div class="container">
-    <div class="ajouterBtn">
-        <a routerLink="/add">
-            <button mat-flat-button color="accent" 
-            > 
-            Ajouter Assignment
-            </button>
+  <div class="ajouterBtn">
+    <a routerLink="/add">
+      <button mat-flat-button color="accent">Ajouter Assignment</button>
+    </a>
+  </div>
+
+  <div id="divPagination">
+    <button mat-raised-button color="primary" (click)="premierePage()">Première page</button>
+    <button mat-raised-button color="primary" [disabled]="page === 1" (click)="pagePrecedente()">Page précédente</button>
+    <button mat-raised-button color="primary" [disabled]="page === totalPages" (click)="pageSuivante()">Page suivante</button>
+    <button mat-raised-button color="primary" (click)="dernierePage()">Dernière page</button>
+  </div>
+
+  <mat-paginator
+    #paginator
+    class="demo-paginator"
+    (page)="handlePageEvent($event)"
+    [length]="totalDocs"
+    [pageSize]="limit"
+    [showFirstLastButtons]="true"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="page - 1"
+    aria-label="Select page">
+  </mat-paginator>
+
+  <div class="assignment-cards">
+    <mat-card *ngFor="let a of assignments"
+              class="assignment-card"
+              [ngClass]="{'rendu': a.rendu, 'non-rendu': !a.rendu}">
+      <mat-card-header>
+        <mat-card-title>{{ a.nom }}</mat-card-title>
+        <mat-card-subtitle>{{ a.nom_eleve }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Matière:</strong> {{ a.matiere }}</p>
+        <p><strong>Date de rendu:</strong> {{ a.dateDeRendu | date: 'd/M/yy' }}</p>
+        <p><strong>Rendu:</strong> {{ a.rendu ? 'Oui' : 'Non' }}</p>
+        <p><strong>Note:</strong> {{ a.note }}</p>
+        <p><strong>Remarque:</strong> {{ a.remarque }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a routerLink="/assignments/{{ a._id }}">
+          <button mat-button color="primary">Voir Détails</button>
         </a>
-    </div>
-
-    <div id="divPagination">
-        <button mat-raised-button color="primary" (click)="premierePage()">Première page</button>
-        <button mat-raised-button color="primary" [disabled]="page===1" (click)="pagePrecedente()">Page precedente</button>
-        <button mat-raised-button color="primary" [disabled]="page===totalPages" (click)="pageSuivante()">Page suivante</button>
-        <button mat-raised-button color="primary" (click)="dernierePage()">Dernière page</button>
-    </div>
-
-    
-    <mat-paginator #paginator
-               class="demo-paginator"
-               (page)="handlePageEvent($event)"
-               [length]="totalDocs"
-               [pageSize]="limit"
-               [showFirstLastButtons]="true"
-               [pageSizeOptions]="pageSizeOptions"
-               [pageIndex]="page-1"
-               aria-label="Select page">
-    </mat-paginator>
-
-    <table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
-        <!-- Nom Column -->
-        <ng-container matColumnDef="nom">
-          <th mat-header-cell *matHeaderCellDef> Nom </th>
-          <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-        </ng-container>
-      
-        <!-- dateDeRendu Column -->
-        <ng-container matColumnDef="dateDeRendu">
-          <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
-          <td mat-cell *matCellDef="let element"> {{element.dateDeRendu | date:'d/M/yy'}} </td>
-        </ng-container>
-      
-        <!-- rendu Column -->
-        <ng-container matColumnDef="rendu">
-          <th mat-header-cell *matHeaderCellDef> Rendu </th>
-          <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-
-
-
-    <mat-list>
-        @for(a of assignments; track a.nom) {
-        <nav>
-            <a routerLink="/assignments/{{a._id}}">
-                <h3 mat-matSubheader>{{a.dateDeRendu | date:'d/M/yy'}}</h3>
-                <mat-list-item>
-                    @if(a.rendu) {
-                    <p [ngStyle]="{'color':getColor(a)}" >Devoir {{a.nom}} a été rendu</p>
-                    } @else {
-                    <p [ngStyle]="{'color':getColor(a)}">Devoir *** {{a.nom}} *** n'a pas été rendu</p>
-                    }
-                </mat-list-item>
-            </a>
-        </nav>
-       
-        <mat-divider></mat-divider>
-        }
-    </mat-list>
-
-    <!--
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Date de rendu</th>
-                <th>Rendu</th>
-            </tr>
-        </thead>
-        @for(a of assignments; track a.nom) {
-        <tr [ngStyle]="{'color':getColor(a), 'background-color':a.rendu?'lightGreen':'yellow'}"
-            >
-            @if(a.rendu) {
-            <td>{{a.nom}}</td>
-            <td>{{a.dateDeRendu}}</td>
-            <td>{{a.rendu}}</td>
-            } @else {
-            <td>*** {{a.nom}} ***</td>
-            <td>{{a.dateDeRendu}}</td>
-            <td>NON RENDU !!!!!!</td>
-            }
-        </tr>
-        }
-    </table>
--->
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
-<!--
-<h3>Avec ngCLass au lieu de ngStyle</h3>
-
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date de rendu</th>
-            <th>Rendu</th>
-        </tr>
-    </thead>
-    @for(a of assignments; track a.nom) {
-    <tr [ngClass]="{'rendu':a.rendu, 'nonRendu':!a.rendu}">
-        @if(a.rendu) {
-        <td>{{a.nom}}</td>
-        <td>{{a.dateDeRendu}}</td>
-        <td>{{a.rendu}}</td>
-        } @else {
-        <td>*** {{a.nom}} ***</td>
-        <td>{{a.dateDeRendu}}</td>
-        <td>NON RENDU !!!!!!</td>
-        }
-    </tr>
-    }
-</table>
-
-<h3>Avec directives custom rendu et nonRendu</h3>
-
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date de rendu</th>
-            <th>Rendu</th>
-        </tr>
-    </thead>
-    @for(a of assignments; track a.nom) {
-    <tr>
-        @if(a.rendu) {
-        <td appRendu>{{a.nom}}</td>
-        <td>{{a.dateDeRendu}}</td>
-        <td>{{a.rendu}}</td>
-        } @else {
-        <td appNonRendu>*** {{a.nom}} ***</td>
-        <td>{{a.dateDeRendu}}</td>
-        <td>NON RENDU !!!!!!</td>
-        }
-    </tr>
-    }
-</table>
-
-<h2>Avec Angular &lt; 17</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Date de rendu</th>
-            <th>Rendu</th>
-        </tr>
-    </thead>
-    <tr *ngFor="let a of assignments">
-        <td>{{a.nom}}</td>
-        <td>{{a.dateDeRendu}}</td>
-        <td>
-            {{a.rendu}}</td>
-    </tr>
-</table>
-
-<h3>Exemple de if else</h3>
-<div *ngFor="let assignment of assignments" [ngStyle]="{'color':getColor(assignment)}">
-    <p *ngIf="assignment.rendu; else nonsoumis">
-        Devoir intitulé {{assignment.nom}}, rendu le
-        {{assignment.dateDeRendu}}.
-    </p>
-    <ng-template #nonsoumis>
-        Le devoir {{assignment.nom}} n'a pas été rendu.
-    </ng-template>
-</div>
--->
